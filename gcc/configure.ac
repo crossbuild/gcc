@@ -5347,7 +5347,7 @@ fi
 GCC_TARGET_TEMPLATE([HAVE_SYS_SDT_H])
 AC_MSG_CHECKING(sys/sdt.h in the target C library)
 have_sys_sdt_h=no
-if test -f $target_header_dir/sys/sdt.h; then
+if false test -f $target_header_dir/sys/sdt.h; then
   have_sys_sdt_h=yes
   AC_DEFINE(HAVE_SYS_SDT_H, 1,
             [Define if your target C library provides sys/sdt.h])
