@@ -1643,7 +1643,27 @@ load_register_parameters (struct arg_data *args, int num_actuals,
 		    emit_move_insn (ri, x);
 		}
 	      else
-		move_block_to_reg (REGNO (reg), mem, nregs, args[i].mode);
+		{
+		  if (size % UNITS_PER_WORD == 0
+		      || MEM_ALIGN (mem) % BITS_PER_WORD == 0)
+		    move_block_to_reg (REGNO (reg), mem, nregs, args[i].mode);
+		  else
+		    {
+		      if (nregs > 1)
+			move_block_to_reg (REGNO (reg), mem,
+					   nregs - 1, args[i].mode);
+		      rtx dest = gen_rtx_REG (word_mode,
+					      REGNO (reg) + nregs - 1);
+		      rtx src = operand_subword_force (mem,
+						       nregs - 1, args[i].mode);
+		      rtx tem = extract_bit_field (src, size * BITS_PER_UNIT,
+						   0, 1, dest, word_mode,
+						   word_mode);
+		      if (tem != dest)
+			convert_move (dest, tem, 1);
+		    }
+		}
+
 	    }
 
 	  /* When a parameter is a block, and perhaps in other cases, it is
