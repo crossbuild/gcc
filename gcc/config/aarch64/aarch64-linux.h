@@ -21,7 +21,7 @@
 #ifndef GCC_AARCH64_LINUX_H
 #define GCC_AARCH64_LINUX_H
 
-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}.so.1"
+#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-aarch64%{mbig-endian:_be}%{mabi=ilp32:_ilp32}.so.1"
 
 #define CPP_SPEC "%{pthread:-D_REENTRANT}"
 
@@ -34,7 +34,7 @@
      %{!shared:-dynamic-linker " GNU_USER_DYNAMIC_LINKER "}} \
    -X						\
    %{mbig-endian:-EB} %{mlittle-endian:-EL}     \
-   -maarch64linux%{mbig-endian:b}"
+   -maarch64linux%{mabi=ilp32:32}%{mbig-endian:b}"
 
 #ifdef TARGET_FIX_ERR_A53_835769_DEFAULT
 #define CA53_ERR_835769_SPEC \
