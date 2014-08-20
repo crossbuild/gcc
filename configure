@@ -6105,13 +6105,10 @@ $as_echo "$ac_has_isl_options_set_schedule_serialize_sccs" >&6; }
   if test "${gcc_cv_isl}" = no ; then
     isllibs=
     islinc=
-  fi
-
-  if test "${graphite_requested}" = yes \
-    && test "x${isllibs}" = x \
-    && test "x${islinc}" = x ; then
+    if test "${graphite_requested}" = yes ; then
 
     as_fn_error "Unable to find a usable isl.  See config.log for details." "$LINENO" 5
+    fi
   fi
 
 

@@ -147,12 +147,9 @@ AC_DEFUN([ISL_IF_FAILED],
   if test "${gcc_cv_isl}" = no ; then
     isllibs=
     islinc=
-  fi
-
-  if test "${graphite_requested}" = yes \
-    && test "x${isllibs}" = x \
-    && test "x${islinc}" = x ; then
-    $1
+    if test "${graphite_requested}" = yes ; then
+      $1
+    fi
   fi
 ]
 )
