@@ -5730,7 +5730,7 @@
   [(set_attr "predicable" "yes")
    (set_attr "predicable_short_it" "no")
    (set_attr "length" "4")
-   (set_attr "type" "mov_imm")]
+   (set_attr "type" "alu_sreg")]
 )
 
 (define_insn "*arm_movsi_insn"
@@ -6986,7 +6986,7 @@
   [(set_attr "conds" "set")
    (set_attr "shift" "1")
    (set_attr "arch" "32,a,a")
-   (set_attr "type" "alus_shift_imm,alu_shift_reg,alus_shift_imm")])
+   (set_attr "type" "alus_shift_imm,alus_shift_reg,alus_shift_imm")])
 
 (define_insn "*cmpsi_shiftsi_swp"
   [(set (reg:CC_SWP CC_REGNUM)
@@ -6999,7 +6999,7 @@
   [(set_attr "conds" "set")
    (set_attr "shift" "1")
    (set_attr "arch" "32,a,a")
-   (set_attr "type" "alus_shift_imm,alu_shift_reg,alus_shift_imm")])
+   (set_attr "type" "alus_shift_imm,alus_shift_reg,alus_shift_imm")])
 
 (define_insn "*arm_cmpsi_negshiftsi_si"
   [(set (reg:CC_Z CC_REGNUM)
@@ -7592,10 +7592,10 @@
                                         (const_string "mov_imm")
                                         (const_string "mov_reg"))
                           (const_string "mvn_imm")
-                          (const_string "mov_reg")
-                          (const_string "mov_reg")
-                          (const_string "mov_reg")
-                          (const_string "mov_reg")])]
+                          (const_string "multiple")
+                          (const_string "multiple")
+                          (const_string "multiple")
+                          (const_string "multiple")])]
 )
 
 (define_insn "*movsfcc_soft_insn"
@@ -8753,7 +8753,14 @@
     return \"\";
   "
   [(set_attr "conds" "use")
-   (set_attr "type" "mov_reg,mov_reg,multiple")
+   (set_attr_alternative "type"
+                         [(if_then_else (match_operand 2 "const_int_operand" "")
+                                        (const_string "mov_imm")
+                                        (const_string "mov_reg"))
+                          (if_then_else (match_operand 1 "const_int_operand" "")
+                                        (const_string "mov_imm")
+                                        (const_string "mov_reg"))
+                          (const_string "multiple")])
    (set_attr "length" "4,4,8")]
 )
 
@@ -9549,8 +9556,8 @@
                                         (const_string "alu_imm" )
                                         (const_string "alu_sreg"))
                           (const_string "alu_imm")
-                          (const_string "alu_sreg")
-                          (const_string "alu_sreg")])]
+                          (const_string "multiple")
+                          (const_string "multiple")])]
 )
 
 (define_insn "*ifcompare_move_plus"
@@ -9587,7 +9594,13 @@
    sub%D4\\t%0, %2, #%n3\;mov%d4\\t%0, %1"
   [(set_attr "conds" "use")
    (set_attr "length" "4,4,8,8")
-   (set_attr "type" "alu_sreg,alu_imm,multiple,multiple")]
+   (set_attr_alternative "type"
+                         [(if_then_else (match_operand 3 "const_int_operand" "")
+                                        (const_string "alu_imm" )
+                                        (const_string "alu_sreg"))
+                          (const_string "alu_imm")
+                          (const_string "multiple")
+                          (const_string "multiple")])]
 )
 
 (define_insn "*ifcompare_arith_arith"
@@ -9682,7 +9695,11 @@
    %I5%d4\\t%0, %2, %3\;mov%D4\\t%0, %1"
   [(set_attr "conds" "use")
    (set_attr "length" "4,8")
-   (set_attr "type" "alu_shift_reg,multiple")]
+   (set_attr_alternative "type"
+                         [(if_then_else (match_operand 3 "const_int_operand" "")
+                                        (const_string "alu_shift_imm" )
+                                        (const_string "alu_shift_reg"))
+                          (const_string "multiple")])]
 )
 
 (define_insn "*ifcompare_move_arith"
@@ -9743,7 +9760,11 @@
    %I5%D4\\t%0, %2, %3\;mov%d4\\t%0, %1"
   [(set_attr "conds" "use")
    (set_attr "length" "4,8")
-   (set_attr "type" "alu_shift_reg,multiple")]
+   (set_attr_alternative "type"
+                         [(if_then_else (match_operand 3 "const_int_operand" "")
+                                        (const_string "alu_shift_imm" )
+                                        (const_string "alu_shift_reg"))
+                          (const_string "multiple")])]
 )
 
 (define_insn "*ifcompare_move_not"
@@ -9850,7 +9871,12 @@
   [(set_attr "conds" "use")
    (set_attr "shift" "2")
    (set_attr "length" "4,8,8")
-   (set_attr "type" "mov_shift_reg,multiple,multiple")]
+   (set_attr_alternative "type"
+                         [(if_then_else (match_operand 3 "const_int_operand" "")
+                                        (const_string "mov_shift" )
+                                        (const_string "mov_shift_reg"))
+                          (const_string "multiple")
+                          (const_string "multiple")])]
 )
 
 (define_insn "*ifcompare_move_shift"
@@ -9888,7 +9914,12 @@
   [(set_attr "conds" "use")
    (set_attr "shift" "2")
    (set_attr "length" "4,8,8")
-   (set_attr "type" "mov_shift_reg,multiple,multiple")]
+   (set_attr_alternative "type"
+                         [(if_then_else (match_operand 3 "const_int_operand" "")
+                                        (const_string "mov_shift" )
+                                        (const_string "mov_shift_reg"))
+                          (const_string "multiple")
+                          (const_string "multiple")])]
 )
 
 (define_insn "*ifcompare_shift_shift"
@@ -10969,7 +11000,7 @@
  [(set_attr "predicable" "yes")
   (set_attr "predicable_short_it" "no")
   (set_attr "length" "4")
-  (set_attr "type" "mov_imm")]
+  (set_attr "type" "alu_sreg")]
 )
 
 (define_insn "*arm_rev"
