@@ -3918,7 +3918,7 @@
 
 (define_insn "aarch64_simd_ld2r<mode>"
   [(set (match_operand:OI 0 "register_operand" "=w")
-       (unspec:OI [(match_operand:<V_TWO_ELEM> 1 "aarch64_simd_struct_operand" "Utv")
+       (unspec:OI [(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")
                    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY) ]
                   UNSPEC_LD2_DUP))]
   "TARGET_SIMD"
@@ -3928,7 +3928,7 @@
 
 (define_insn "aarch64_vec_load_lanesoi_lane<mode>"
   [(set (match_operand:OI 0 "register_operand" "=w")
-	(unspec:OI [(match_operand:<V_TWO_ELEM> 1 "aarch64_simd_struct_operand" "Utv")
+	(unspec:OI [(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")
 		    (match_operand:OI 2 "register_operand" "0")
 		    (match_operand:SI 3 "immediate_operand" "i")
 		    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY) ]
@@ -3971,9 +3971,9 @@
 )
 
 ;; RTL uses GCC vector extension indices, so flip only for assembly.
-(define_insn "vec_store_lanesoi_lane<mode>"
-  [(set (match_operand:<V_TWO_ELEM> 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:<V_TWO_ELEM> [(match_operand:OI 1 "register_operand" "w")
+(define_insn "aarch64_vec_store_lanesoi_lane<mode>"
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:OI 1 "register_operand" "w")
 		    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
 		    (match_operand:SI 2 "immediate_operand" "i")]
 		   UNSPEC_ST2_LANE))]
@@ -4016,7 +4016,7 @@
 
 (define_insn "aarch64_simd_ld3r<mode>"
   [(set (match_operand:CI 0 "register_operand" "=w")
-       (unspec:CI [(match_operand:<V_THREE_ELEM> 1 "aarch64_simd_struct_operand" "Utv")
+       (unspec:CI [(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")
                    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY) ]
                   UNSPEC_LD3_DUP))]
   "TARGET_SIMD"
@@ -4026,7 +4026,7 @@
 
 (define_insn "aarch64_vec_load_lanesci_lane<mode>"
   [(set (match_operand:CI 0 "register_operand" "=w")
-	(unspec:CI [(match_operand:<V_THREE_ELEM> 1 "aarch64_simd_struct_operand" "Utv")
+	(unspec:CI [(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")
 		    (match_operand:CI 2 "register_operand" "0")
 		    (match_operand:SI 3 "immediate_operand" "i")
 		    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
@@ -4069,12 +4069,12 @@
 )
 
 ;; RTL uses GCC vector extension indices, so flip only for assembly.
-(define_insn "vec_store_lanesci_lane<mode>"
-  [(set (match_operand:<V_THREE_ELEM> 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:<V_THREE_ELEM> [(match_operand:CI 1 "register_operand" "w")
-		    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
-		    (match_operand:SI 2 "immediate_operand" "i")]
-		   UNSPEC_ST3_LANE))]
+(define_insn "aarch64_vec_store_lanesci_lane<mode>"
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:CI 1 "register_operand" "w")
+		     (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
+		     (match_operand:SI 2 "immediate_operand" "i")]
+		    UNSPEC_ST3_LANE))]
   "TARGET_SIMD"
   {
     operands[2] = GEN_INT (ENDIAN_LANE_N (<MODE>mode, INTVAL (operands[2])));
@@ -4114,7 +4114,7 @@
 
 (define_insn "aarch64_simd_ld4r<mode>"
   [(set (match_operand:XI 0 "register_operand" "=w")
-       (unspec:XI [(match_operand:<V_FOUR_ELEM> 1 "aarch64_simd_struct_operand" "Utv")
+       (unspec:XI [(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")
                    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY) ]
                   UNSPEC_LD4_DUP))]
   "TARGET_SIMD"
@@ -4124,7 +4124,7 @@
 
 (define_insn "aarch64_vec_load_lanesxi_lane<mode>"
   [(set (match_operand:XI 0 "register_operand" "=w")
-	(unspec:XI [(match_operand:<V_FOUR_ELEM> 1 "aarch64_simd_struct_operand" "Utv")
+	(unspec:XI [(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")
 		    (match_operand:XI 2 "register_operand" "0")
 		    (match_operand:SI 3 "immediate_operand" "i")
 		    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
@@ -4167,12 +4167,12 @@
 )
 
 ;; RTL uses GCC vector extension indices, so flip only for assembly.
-(define_insn "vec_store_lanesxi_lane<mode>"
-  [(set (match_operand:<V_FOUR_ELEM> 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:<V_FOUR_ELEM> [(match_operand:XI 1 "register_operand" "w")
-		    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
-		    (match_operand:SI 2 "immediate_operand" "i")]
-		   UNSPEC_ST4_LANE))]
+(define_insn "aarch64_vec_store_lanesxi_lane<mode>"
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:XI 1 "register_operand" "w")
+		     (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
+		     (match_operand:SI 2 "immediate_operand" "i")]
+		    UNSPEC_ST4_LANE))]
   "TARGET_SIMD"
   {
     operands[2] = GEN_INT (ENDIAN_LANE_N (<MODE>mode, INTVAL (operands[2])));
@@ -4371,42 +4371,18 @@
     FAIL;
 })
 
-(define_expand "aarch64_ld2r<mode>"
-  [(match_operand:OI 0 "register_operand" "=w")
+(define_expand "aarch64_ld<VSTRUCT:nregs>r<VALLDIF:mode>"
+  [(match_operand:VSTRUCT 0 "register_operand" "=w")
    (match_operand:DI 1 "register_operand" "w")
    (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
   "TARGET_SIMD"
 {
-  machine_mode mode = <V_TWO_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
+  rtx mem = gen_rtx_MEM (BLKmode, operands[1]);
+  set_mem_size (mem, GET_MODE_SIZE (GET_MODE_INNER (<VALLDIF:MODE>mode))
+		     * <VSTRUCT:nregs>);
 
-  emit_insn (gen_aarch64_simd_ld2r<mode> (operands[0], mem));
-  DONE;
-})
-
-(define_expand "aarch64_ld3r<mode>"
-  [(match_operand:CI 0 "register_operand" "=w")
-   (match_operand:DI 1 "register_operand" "w")
-   (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
-  "TARGET_SIMD"
-{
-  machine_mode mode = <V_THREE_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
-
-  emit_insn (gen_aarch64_simd_ld3r<mode> (operands[0], mem));
-  DONE;
-})
-
-(define_expand "aarch64_ld4r<mode>"
-  [(match_operand:XI 0 "register_operand" "=w")
-   (match_operand:DI 1 "register_operand" "w")
-   (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
-  "TARGET_SIMD"
-{
-  machine_mode mode = <V_FOUR_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
-
-  emit_insn (gen_aarch64_simd_ld4r<mode> (operands[0],mem));
+  emit_insn (gen_aarch64_simd_ld<VSTRUCT:nregs>r<VALLDIF:mode> (operands[0],
+								mem));
   DONE;
 })
 
@@ -4415,8 +4391,9 @@
 	(subreg:OI
 	  (vec_concat:<VRL2>
 	    (vec_concat:<VDBL>
-	     (unspec:VD [(match_operand:TI 1 "aarch64_simd_struct_operand" "Utv")]
-			UNSPEC_LD2)
+	     (unspec:VD
+		[(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")]
+		UNSPEC_LD2)
 	     (vec_duplicate:VD (const_int 0)))
 	    (vec_concat:<VDBL>
 	     (unspec:VD [(match_dup 1)]
@@ -4432,8 +4409,9 @@
 	(subreg:OI
 	  (vec_concat:<VRL2>
 	    (vec_concat:<VDBL>
-	     (unspec:DX [(match_operand:TI 1 "aarch64_simd_struct_operand" "Utv")]
-			UNSPEC_LD2)
+	     (unspec:DX
+		[(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")]
+		UNSPEC_LD2)
 	     (const_int 0))
 	    (vec_concat:<VDBL>
 	     (unspec:DX [(match_dup 1)]
@@ -4450,8 +4428,9 @@
 	 (vec_concat:<VRL3>
 	  (vec_concat:<VRL2>
 	    (vec_concat:<VDBL>
-	     (unspec:VD [(match_operand:EI 1 "aarch64_simd_struct_operand" "Utv")]
-			UNSPEC_LD3)
+	     (unspec:VD
+		[(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")]
+		UNSPEC_LD3)
 	     (vec_duplicate:VD (const_int 0)))
 	    (vec_concat:<VDBL>
 	     (unspec:VD [(match_dup 1)]
@@ -4472,8 +4451,9 @@
 	 (vec_concat:<VRL3>
 	  (vec_concat:<VRL2>
 	    (vec_concat:<VDBL>
-	     (unspec:DX [(match_operand:EI 1 "aarch64_simd_struct_operand" "Utv")]
-			UNSPEC_LD3)
+	     (unspec:DX
+		[(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")]
+		UNSPEC_LD3)
 	     (const_int 0))
 	    (vec_concat:<VDBL>
 	     (unspec:DX [(match_dup 1)]
@@ -4494,8 +4474,9 @@
 	 (vec_concat:<VRL4>
 	   (vec_concat:<VRL2>
 	     (vec_concat:<VDBL>
-	       (unspec:VD [(match_operand:OI 1 "aarch64_simd_struct_operand" "Utv")]
-			  UNSPEC_LD4)
+	       (unspec:VD
+		[(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")]
+		UNSPEC_LD4)
 	       (vec_duplicate:VD (const_int 0)))
 	      (vec_concat:<VDBL>
 	        (unspec:VD [(match_dup 1)]
@@ -4521,8 +4502,9 @@
 	 (vec_concat:<VRL4>
 	   (vec_concat:<VRL2>
 	     (vec_concat:<VDBL>
-	       (unspec:DX [(match_operand:OI 1 "aarch64_simd_struct_operand" "Utv")]
-			  UNSPEC_LD4)
+	       (unspec:DX
+		[(match_operand:BLK 1 "aarch64_simd_struct_operand" "Utv")]
+		UNSPEC_LD4)
 	       (const_int 0))
 	      (vec_concat:<VDBL>
 	        (unspec:DX [(match_dup 1)]
@@ -4548,8 +4530,8 @@
   (unspec:VDC [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
   "TARGET_SIMD"
 {
-  machine_mode mode = <VSTRUCT:VSTRUCT_DREG>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
+  rtx mem = gen_rtx_MEM (BLKmode, operands[1]);
+  set_mem_size (mem, <VSTRUCT:nregs> * 8);
 
   emit_insn (gen_aarch64_ld<VSTRUCT:nregs><VDC:mode>_dreg (operands[0], mem));
   DONE;
@@ -4583,61 +4565,25 @@
   DONE;
 })
 
-(define_expand "aarch64_ld2_lane<mode>"
-  [(match_operand:OI 0 "register_operand" "=w")
+(define_expand "aarch64_ld<VSTRUCT:nregs>_lane<VALLDIF:mode>"
+  [(match_operand:VSTRUCT 0 "register_operand" "=w")
 	(match_operand:DI 1 "register_operand" "w")
-	(match_operand:OI 2 "register_operand" "0")
+	(match_operand:VSTRUCT 2 "register_operand" "0")
 	(match_operand:SI 3 "immediate_operand" "i")
 	(unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
   "TARGET_SIMD"
 {
-  machine_mode mode = <V_TWO_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
+  rtx mem = gen_rtx_MEM (BLKmode, operands[1]);
+  set_mem_size (mem, GET_MODE_SIZE (GET_MODE_INNER (<VALLDIF:MODE>mode))
+		     * <VSTRUCT:nregs>);
 
-  emit_insn (gen_aarch64_vec_load_lanesoi_lane<mode> (operands[0],
-						      mem,
-						      operands[2],
-						      operands[3]));
+  aarch64_simd_lane_bounds (operands[3], 0,
+			    GET_MODE_NUNITS (<VALLDIF:MODE>mode),
+			    NULL);
+  emit_insn (gen_aarch64_vec_load_lanes<VSTRUCT:mode>_lane<VALLDIF:mode> (
+	operands[0], mem, operands[2], operands[3]));
   DONE;
 })
-
-(define_expand "aarch64_ld3_lane<mode>"
-  [(match_operand:CI 0 "register_operand" "=w")
-	(match_operand:DI 1 "register_operand" "w")
-	(match_operand:CI 2 "register_operand" "0")
-	(match_operand:SI 3 "immediate_operand" "i")
-	(unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
-  "TARGET_SIMD"
-{
-  machine_mode mode = <V_THREE_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
-
-  emit_insn (gen_aarch64_vec_load_lanesci_lane<mode> (operands[0],
-						      mem,
-						      operands[2],
-						      operands[3]));
-  DONE;
-})
-
-(define_expand "aarch64_ld4_lane<mode>"
-  [(match_operand:XI 0 "register_operand" "=w")
-	(match_operand:DI 1 "register_operand" "w")
-	(match_operand:XI 2 "register_operand" "0")
-	(match_operand:SI 3 "immediate_operand" "i")
-	(unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
-  "TARGET_SIMD"
-{
-  machine_mode mode = <V_FOUR_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[1]);
-
-  emit_insn (gen_aarch64_vec_load_lanesxi_lane<mode> (operands[0],
-						      mem,
-						      operands[2],
-						      operands[3]));
-  DONE;
-})
-
-
 
 ;; Expanders for builtins to extract vector registers from large
 ;; opaque integer modes.
@@ -4781,8 +4727,8 @@
 )
 
 (define_insn "aarch64_st2<mode>_dreg"
-  [(set (match_operand:TI 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:TI [(match_operand:OI 1 "register_operand" "w")
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:OI 1 "register_operand" "w")
                     (unspec:VD [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
                    UNSPEC_ST2))]
   "TARGET_SIMD"
@@ -4791,8 +4737,8 @@
 )
 
 (define_insn "aarch64_st2<mode>_dreg"
-  [(set (match_operand:TI 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:TI [(match_operand:OI 1 "register_operand" "w")
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:OI 1 "register_operand" "w")
                     (unspec:DX [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
                    UNSPEC_ST2))]
   "TARGET_SIMD"
@@ -4801,8 +4747,8 @@
 )
 
 (define_insn "aarch64_st3<mode>_dreg"
-  [(set (match_operand:EI 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:EI [(match_operand:CI 1 "register_operand" "w")
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:CI 1 "register_operand" "w")
                     (unspec:VD [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
                    UNSPEC_ST3))]
   "TARGET_SIMD"
@@ -4811,8 +4757,8 @@
 )
 
 (define_insn "aarch64_st3<mode>_dreg"
-  [(set (match_operand:EI 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:EI [(match_operand:CI 1 "register_operand" "w")
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:CI 1 "register_operand" "w")
                     (unspec:DX [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
                    UNSPEC_ST3))]
   "TARGET_SIMD"
@@ -4821,8 +4767,8 @@
 )
 
 (define_insn "aarch64_st4<mode>_dreg"
-  [(set (match_operand:OI 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:OI [(match_operand:XI 1 "register_operand" "w")
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:XI 1 "register_operand" "w")
                     (unspec:VD [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
                    UNSPEC_ST4))]
   "TARGET_SIMD"
@@ -4831,8 +4777,8 @@
 )
 
 (define_insn "aarch64_st4<mode>_dreg"
-  [(set (match_operand:OI 0 "aarch64_simd_struct_operand" "=Utv")
-	(unspec:OI [(match_operand:XI 1 "register_operand" "w")
+  [(set (match_operand:BLK 0 "aarch64_simd_struct_operand" "=Utv")
+	(unspec:BLK [(match_operand:XI 1 "register_operand" "w")
                     (unspec:DX [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
                    UNSPEC_ST4))]
   "TARGET_SIMD"
@@ -4846,8 +4792,8 @@
   (unspec:VDC [(const_int 0)] UNSPEC_VSTRUCTDUMMY)]
   "TARGET_SIMD"
 {
-  machine_mode mode = <VSTRUCT:VSTRUCT_DREG>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[0]);
+  rtx mem = gen_rtx_MEM (BLKmode, operands[0]);
+  set_mem_size (mem, <VSTRUCT:nregs> * 8);
 
   emit_insn (gen_aarch64_st<VSTRUCT:nregs><VDC:mode>_dreg (mem, operands[1]));
   DONE;
@@ -4866,45 +4812,19 @@
   DONE;
 })
 
-(define_expand "aarch64_st2_lane<mode>"
+(define_expand "aarch64_st<VSTRUCT:nregs>_lane<VALLDIF:mode>"
  [(match_operand:DI 0 "register_operand" "r")
-  (match_operand:OI 1 "register_operand" "w")
+  (match_operand:VSTRUCT 1 "register_operand" "w")
   (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
   (match_operand:SI 2 "immediate_operand")]
   "TARGET_SIMD"
 {
-  machine_mode mode = <V_TWO_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[0]);
+  rtx mem = gen_rtx_MEM (BLKmode, operands[0]);
+  set_mem_size (mem, GET_MODE_SIZE (GET_MODE_INNER (<VALLDIF:MODE>mode))
+		     * <VSTRUCT:nregs>);
 
-  emit_insn (gen_vec_store_lanesoi_lane<mode> (mem, operands[1], operands[2]));
-  DONE;
-})
-
-(define_expand "aarch64_st3_lane<mode>"
- [(match_operand:DI 0 "register_operand" "r")
-  (match_operand:CI 1 "register_operand" "w")
-  (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
-  (match_operand:SI 2 "immediate_operand")]
-  "TARGET_SIMD"
-{
-  machine_mode mode = <V_THREE_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[0]);
-
-  emit_insn (gen_vec_store_lanesci_lane<mode> (mem, operands[1], operands[2]));
-  DONE;
-})
-
-(define_expand "aarch64_st4_lane<mode>"
- [(match_operand:DI 0 "register_operand" "r")
-  (match_operand:XI 1 "register_operand" "w")
-  (unspec:VALLDIF [(const_int 0)] UNSPEC_VSTRUCTDUMMY)
-  (match_operand:SI 2 "immediate_operand")]
-  "TARGET_SIMD"
-{
-  machine_mode mode = <V_FOUR_ELEM>mode;
-  rtx mem = gen_rtx_MEM (mode, operands[0]);
-
-  emit_insn (gen_vec_store_lanesxi_lane<mode> (mem, operands[1], operands[2]));
+  emit_insn (gen_aarch64_vec_store_lanes<VSTRUCT:mode>_lane<VALLDIF:mode> (
+		mem, operands[1], operands[2]));
   DONE;
 })
 
