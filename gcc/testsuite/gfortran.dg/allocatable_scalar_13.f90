@@ -69,4 +69,3 @@ contains
 end
 ! { dg-final { scan-tree-dump-times "builtin_malloc" 16 "original" } }
 ! { dg-final { scan-tree-dump-times "builtin_free" 16 "original" } }
-! { dg-final { cleanup-tree-dump "original" } }
