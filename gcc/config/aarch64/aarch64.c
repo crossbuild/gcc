@@ -7737,6 +7737,7 @@ initialize_aarch64_code_model (struct gcc_options *opts)
 	 case AARCH64_CMODEL_LARGE:
 	   sorry ("code model %qs with -f%s", "large",
 		  opts->x_flag_pic > 1 ? "PIC" : "pic");
+	   break;
 	 default:
 	   gcc_unreachable ();
 	 }
