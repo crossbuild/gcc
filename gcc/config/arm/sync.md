@@ -72,7 +72,7 @@
   {
     enum memmodel model = memmodel_from_int (INTVAL (operands[2]));
     if (is_mm_relaxed (model) || is_mm_consume (model) || is_mm_release (model))
-      return \"ldr%(<sync_sfx>%)\\t%0, %1\";
+      return \"ldr<sync_sfx>%?\\t%0, %1\";
     else
       return \"lda<sync_sfx>%?\\t%0, %1\";
   }
@@ -89,7 +89,7 @@
   {
     enum memmodel model = memmodel_from_int (INTVAL (operands[2]));
     if (is_mm_relaxed (model) || is_mm_consume (model) || is_mm_acquire (model))
-      return \"str%(<sync_sfx>%)\t%1, %0\";
+      return \"str<sync_sfx>%?\t%1, %0\";
     else
       return \"stl<sync_sfx>%?\t%1, %0\";
   }
@@ -104,7 +104,7 @@
 	  [(match_operand:DI 1 "arm_sync_memory_operand" "Q")]
 	    VUNSPEC_LDRD_ATOMIC))]
   "ARM_DOUBLEWORD_ALIGN && TARGET_HAVE_LPAE"
-  "ldr%(d%)\t%0, %H0, %C1"
+  "ldrd%?\t%0, %H0, %C1"
   [(set_attr "predicable" "yes")
    (set_attr "predicable_short_it" "no")])
 
