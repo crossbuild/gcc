@@ -3086,7 +3086,7 @@
 	  [(match_operand:VDQHS 1 "register_operand" "0")
 	   (match_operand:VDQHS 2 "register_operand" "w")
 	   (vec_select:<VEL>
-	     (match_operand:<VCOND> 3 "register_operand" "w")
+	     (match_operand:<VCOND> 3 "register_operand" "<vwx>")
 	     (parallel [(match_operand:SI 4 "immediate_operand" "i")]))]
 	  SQRDMLH_AS))]
    "TARGET_SIMD_RDMA"
@@ -3104,7 +3104,7 @@
 	  [(match_operand:SD_HSI 1 "register_operand" "0")
 	   (match_operand:SD_HSI 2 "register_operand" "w")
 	   (vec_select:<VEL>
-	     (match_operand:<VCOND> 3 "register_operand" "w")
+	     (match_operand:<VCOND> 3 "register_operand" "<vwx>")
 	     (parallel [(match_operand:SI 4 "immediate_operand" "i")]))]
 	  SQRDMLH_AS))]
    "TARGET_SIMD_RDMA"
@@ -3124,7 +3124,7 @@
 	  [(match_operand:VDQHS 1 "register_operand" "0")
 	   (match_operand:VDQHS 2 "register_operand" "w")
 	   (vec_select:<VEL>
-	     (match_operand:<VCONQ> 3 "register_operand" "w")
+	     (match_operand:<VCONQ> 3 "register_operand" "<vwx>")
 	     (parallel [(match_operand:SI 4 "immediate_operand" "i")]))]
 	  SQRDMLH_AS))]
    "TARGET_SIMD_RDMA"
@@ -3142,7 +3142,7 @@
 	  [(match_operand:SD_HSI 1 "register_operand" "0")
 	   (match_operand:SD_HSI 2 "register_operand" "w")
 	   (vec_select:<VEL>
-	     (match_operand:<VCONQ> 3 "register_operand" "w")
+	     (match_operand:<VCONQ> 3 "register_operand" "<vwx>")
 	     (parallel [(match_operand:SI 4 "immediate_operand" "i")]))]
 	  SQRDMLH_AS))]
    "TARGET_SIMD_RDMA"
