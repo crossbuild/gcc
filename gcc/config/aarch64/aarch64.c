@@ -7653,7 +7653,6 @@ aarch64_override_options_after_change_1 (struct gcc_options *opts)
      second call as meaning that all frame pointer generation should be
      omitted.  We do this by setting flag_omit_frame_pointer to a special,
      non-zero value.  */
-
   if (opts->x_flag_omit_frame_pointer == 2)
     opts->x_flag_omit_frame_pointer = 0;
 
