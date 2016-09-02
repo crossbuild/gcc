@@ -10563,7 +10563,11 @@
   }
   "
   [(set_attr "type" "load4")
-   (set_attr "predicable" "yes")]
+   (set_attr "predicable" "yes")
+   (set (attr "length")
+	(symbol_ref "arm_attr_length_pop_multi (operands,
+						/*return_pc=*/false,
+						/*write_back_p=*/true)"))]
 )
 
 ;; Pop with return (as used in epilogue RTL)
@@ -10592,7 +10596,10 @@
   }
   "
   [(set_attr "type" "load4")
-   (set_attr "predicable" "yes")]
+   (set_attr "predicable" "yes")
+   (set (attr "length")
+	(symbol_ref "arm_attr_length_pop_multi (operands, /*return_pc=*/true,
+						/*write_back_p=*/true)"))]
 )
 
 (define_insn "*pop_multiple_with_return"
@@ -10612,7 +10619,10 @@
   }
   "
   [(set_attr "type" "load4")
-   (set_attr "predicable" "yes")]
+   (set_attr "predicable" "yes")
+   (set (attr "length")
+	(symbol_ref "arm_attr_length_pop_multi (operands, /*return_pc=*/true,
+						/*write_back_p=*/false)"))]
 )
 
 ;; Load into PC and return
