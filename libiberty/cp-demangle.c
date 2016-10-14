@@ -5604,6 +5604,24 @@ d_print_comp (struct d_print_info *dpi, int options,
 {
   struct d_component_stack self;
 
+  self.parent = dpi->component_stack;
+
+  while (self.parent)
+    {
+      self.dc = self.parent->dc;
+      self.parent = self.parent->parent;
+      if (dc != NULL && self.dc == dc)
+	{
+	  while (self.parent)
+	    {
+	      self.dc = self.parent->dc;
+	      self.parent = self.parent->parent;
+	      if (self.dc == dc)
+	        return;
+	    }
+	}
+    }
+
   self.dc = dc;
   self.parent = dpi->component_stack;
   dpi->component_stack = &self;

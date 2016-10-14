@@ -4491,3 +4491,69 @@ void eat<int*, Foo()::{lambda(auto:1*, auto:2*)#6}>(int*&, Foo()::{lambda(auto:1
 
 _Z3eatIPiZ3BarIsEvvEUlPsPT_PT0_E0_EvRS3_RS5_
 void eat<int*, void Bar<short>()::{lambda(short*, auto:1*, auto:2*)#2}>(int*&, void Bar<short>()::{lambda(short*, auto:1*, auto:2*)#2}&)
+#
+# Test demangler crash PR62279
+
+_ZN5Utils9transformIPN15ProjectExplorer13BuildStepListEZNKS1_18BuildConfiguration14knownStepListsEvEUlS3_E_EE5QListIDTclfp0_cvT__EEEERKS6_IS7_ET0_
+QList<decltype ({parm#2}((ProjectExplorer::BuildStepList*)()))> Utils::transform<ProjectExplorer::BuildStepList*, ProjectExplorer::BuildConfiguration::knownStepLists() const::{lambda(ProjectExplorer::BuildStepList*)#1}>(ProjectExplorer::BuildConfiguration::knownStepLists() const::{lambda(ProjectExplorer::BuildStepList*)#1}<QList> const&, ProjectExplorer::BuildConfiguration::knownStepLists() const::{lambda(ProjectExplorer::BuildStepList*)#1})
+#
+
+_ZSt7forwardIKSaINSt6thread5_ImplISt12_Bind_simpleIFZN6WIM_DL5Utils9AsyncTaskC4IMNS3_8Hardware12FpgaWatchdogEKFvvEIPS8_EEEibOT_DpOT0_EUlvE_vEEEEEESD_RNSt16remove_referenceISC_E4typeE
+std::allocator<std::thread::_Impl<std::_Bind_simple<WIM_DL::Utils::AsyncTask::AsyncTask<void (WIM_DL::Hardware::FpgaWatchdog::*)() const, WIM_DL::Hardware::FpgaWatchdog*>(int, bool, void (WIM_DL::Hardware::FpgaWatchdog::*&&)() const, WIM_DL::Hardware::FpgaWatchdog*&&)::{lambda()#1} ()> > > const&& std::forward<std::allocator<std::thread::_Impl<std::_Bind_simple<WIM_DL::Utils::AsyncTask::AsyncTask<void (WIM_DL::Hardware::FpgaWatchdog::*)() const, WIM_DL::Hardware::FpgaWatchdog*>(int, bool, std::allocator<std::thread::_Impl<std::_Bind_simple<WIM_DL::Utils::AsyncTask::AsyncTask<void (WIM_DL::Hardware::FpgaWatchdog::*)() const, WIM_DL::Hardware::FpgaWatchdog*>(int, bool, void (WIM_DL::Hardware::FpgaWatchdog::*&&)() const, WIM_DL::Hardware::FpgaWatchdog*&&)::{lambda()#1} ()> > > const&&, WIM_DL::Hardware::FpgaWatchdog*&&)::{lambda()#1} ()> > > const>(std::remove_reference<std::allocator<std::thread::_Impl<std::_Bind_simple<WIM_DL::Utils::AsyncTask::AsyncTask<void (WIM_DL::Hardware::FpgaWatchdog::*)() const, WIM_DL::Hardware::FpgaWatchdog*>(int, bool, void (WIM_DL::Hardware::FpgaWatchdog::*&&)() const, WIM_DL::Hardware::FpgaWatchdog*&&)::{lambda()#1} ()> > > const>::type&)
+#
+# Test demangler crash PR61805
+
+_ZNK5niven5ColorIfLi4EEdvIfEENSt9enable_ifIXsrSt13is_arithmeticIT_E5valueEKNS0_IDTmlcvS5__Ecvf_EELi4EEEE4typeES5_
+std::enable_if<std::is_arithmetic<float>::value, niven::Color<decltype (((float)())*((float)())), 4> const>::type niven::Color<float, 4>::operator/<float>(float) const
+#
+# Test recursion PR70517
+
+_ZSt4moveIRZN11tconcurrent6futureIvE4thenIZ5awaitIS2_EDaOT_EUlRKS6_E_EENS1_INSt5decayIDTclfp_defpTEEE4typeEEES7_EUlvE_EONSt16remove_referenceIS6_E4typeES7_
+std::remove_reference<tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >(tconcurrent::future<void>&&)::{lambda(tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >()::{lambda( const&)#1}>( const)::{lambda()#1}& const&)#1}>(auto await<tconcurrent::future<void> >()::{lambda( const&)#1}&& const)::{lambda()#1}&>::type&& std::move<tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >(tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >(tconcurrent::future<void>&&)::{lambda(& const&)#1}>(auto await<tconcurrent::future<void> >()::{lambda( const&)#1}&& const)::{lambda()#1}&)::{lambda(tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >(tconcurrent::future<void>&&)::{lambda(& const&)#1}>(auto await<tconcurrent::future<void> >()::{lambda(&)#1}&& const)::{lambda()#1}& const&)#1}>(tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >(tconcurrent::future<void>&&)::{lambda(& const&)#1}>(auto await<tconcurrent::future<void> >()::{lambda(&)#1}&& const)::{lambda()#1}& const)::{lambda()#1}&>(tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >(tconcurrent::future<void>&&)::{lambda(tconcurrent::future<std::decay<decltype ({parm#1}(*this))>::type> tconcurrent::future<void>::then<auto await<tconcurrent::future<void> >()::{lambda(&)#1}>()::{lambda()#1}& const&)#1}>(auto await<tconcurrent::future<void> >()::{lambda(&)#1}&& const)::{lambda()#1}& const)
+#
+# Test recursion PR68383
+
+_ZSt7forwardIRKZN5Write14DataMapGrammarISt20back_insert_iteratorISsEEC4EvEUlRT_E_EOS5_RNSt16remove_referenceIS5_E4typeE
+_ZSt7forwardIRKZN5Write14DataMapGrammarISt20back_insert_iteratorISsEEC4EvEUlRT_E_EOS5_RNSt16remove_referenceIS5_E4typeE
+#
+# Test recursion PR67264
+
+_Z1KIStcvT_E
+K<std::operator std::operator >
+
+_ZcvT_IIS0_EE
+operator operator <operator operator >
+
+_ZcvT_IZcvT_E1fE
+operator operator operator ::f::f<operator operator ::f::f>
+
+_Z1gINcvT_EE
+g<operator operator >
+
+_ZcvT_ILZcvDTT_EEE
+operator operator decltype (operator decltype ())<operator decltype (operator decltype ())>
+
+_Z1gIJOOT_EEOT_c
+_Z1gIJOOT_EEOT_c
+
+_Z1KMMMMMMMMMMMMMMMA_xooooooooooooooo
+K(unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 long long (long long (unsigned __int128 ::*::* unsigned __int128 unsigned __int128 ::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::*::*::*::*::*::* unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 unsigned __int128 ::*::*::*::*::*::*::*::*::*::*::*::*::*::*::*) []::*) []::*::*::*::*::*::*::*::*::*::*::*::*::*::*::*)
+
+_ZdvMMMMMMMMMMMMMrrrrA_DTdvfp_fp_Eededilfdfdfdfd
+operator/(float double float double float double float long int double long double double long double decltype ({parm#1}/{parm#1}) restrict (decltype ({parm#1}/{parm#1}) restrict (long double ::*::* double long double ::*::*::* long double double long double ::*::*::*::* double long double double long double ::*::*::*::*::* int double long double double long double ::*::*::*::*::*::* long int double long double double long double ::*::*::*::*::*::*::* float long int double long double double long double ::*::*::*::*::*::*::*::* double float long int double long double double long double ::*::*::*::*::*::*::*::*::* float double float long int double long double double long double ::*::*::*::*::*::*::*::*::*::* double float double float long int double long double double long double ::*::*::*::*::*::*::*::*::*::*::* float double float double float long int double long double double long double ::*::*::*::*::*::*::*::*::*::*::*::* double float double float double float long int double long double double long double ::*::*::*::*::*::*::*::*::*::*::*::*::*) []::*) []::*::*::*::*::*::*::*::*::*::*::*::*::*, double)
+#
+# Test for Infinite Recursion PR67738
+
+_ZNK6Common15ConvertingRangeIN5boost12range_detail17transformed_rangeIZN1a1b1cEbEUljE_KSt6vectorIjSaIjEEEEEcvT_IS7_INS4_1dESaISF_EEEEv
+Common::ConvertingRange<boost::range_detail::transformed_range<a::b::c(bool)::{lambda(unsigned int)#1}, std::vector<unsigned int, std::allocator<unsigned int> > const> >::operator a::b::c(bool)::{lambda(unsigned int)#1}<a::d, std::allocator<Common::ConvertingRange<boost::range_detail::transformed_range<a::b::c(bool)::{lambda(unsigned int)#1}, std::vector<unsigned int, std::allocator<unsigned int> > const> >::operator > ><a::b::c(bool)::{lambda(unsigned int)#1}<a::d, std::allocator<Common::ConvertingRange<boost::range_detail::transformed_range<a::b::c(bool)::{lambda(unsigned int)#1}, std::vector<unsigned int, std::allocator<unsigned int> > const> >::operator Common::ConvertingRange<boost::range_detail::transformed_range<a::b::c(bool)::{lambda(unsigned int)#1}, std::vector<unsigned int, std::allocator<unsigned int> > const> >::operator > > >() const
+#
+# Test for Infinite Recursion PR68700
+
+_ZN8futurizeI13frozen_schemaE5applyIRZN7seastar7shardedIN7service13storage_proxyEE9invoke_onIZZNS6_22init_messaging_serviceEvENKUljN5utils4UUIDEE8_clEjSA_EUlOT_E_6futureIJS0_EEEET0_jSD_EUlvE_JEEESG_SD_DpOT0_
+_ZN8futurizeI13frozen_schemaE5applyIRZN7seastar7shardedIN7service13storage_proxyEE9invoke_onIZZNS6_22init_messaging_serviceEvENKUljN5utils4UUIDEE8_clEjSA_EUlOT_E_6futureIJS0_EEEET0_jSD_EUlvE_JEEESG_SD_DpOT0_
+#
+# Test for Infinite Recursion PR61460
+
+_ZNK6clover6detail11basic_rangeINS_13adaptor_rangeINS_9addressesEINS2_IRFRNS_5eventEP9_cl_eventEINS_14iterator_rangeIPKS7_EEEEEEEENS0_16iterator_adaptorIS3_INSG_IS9_ISC_EEEEEESI_EcvT_ISt6vectorIPS4_SaISN_EEvEEv
+clover::detail::basic_range<clover::adaptor_range<clover::addresses, clover::adaptor_range<clover::event& (&)(_cl_event*), clover::iterator_range<_cl_event* const*> > >, clover::detail::iterator_adaptor<clover::addresses<clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > > >, clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > >::operator std::vector<clover::event*, std::allocator<clover::detail::basic_range<clover::adaptor_range<clover::addresses, clover::adaptor_range<clover::event& (&)(_cl_event*), clover::iterator_range<_cl_event* const*> > >, clover::detail::iterator_adaptor<clover::addresses<clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > > >, clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > >::operator > ><std::vector<clover::event*, std::allocator<clover::detail::basic_range<clover::adaptor_range<clover::addresses, clover::adaptor_range<clover::event& (&)(_cl_event*), clover::iterator_range<_cl_event* const*> > >, clover::detail::iterator_adaptor<clover::addresses<clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > > >, clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > >::operator clover::detail::basic_range<clover::adaptor_range<clover::addresses, clover::adaptor_range<clover::event& (&)(_cl_event*), clover::iterator_range<_cl_event* const*> > >, clover::detail::iterator_adaptor<clover::addresses<clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > > >, clover::detail::iterator_adaptor<clover::event& (&)(_cl_event*)<_cl_event* const*> > >::operator > >, void>() const
+

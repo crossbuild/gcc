@@ -1,3 +1,19 @@
+2016-05-02  Marcel Böhme  <boehme.marcel@gmail.com>
+
+	PR c++/70909
+	PR c++/61460
+	PR c++/68700
+	PR c++/67738
+	PR c++/68383
+	PR c++/70517
+	PR c++/61805
+	PR c++/62279
+	PR c++/67264
+	* cp-demangle.c: Prevent infinite recursion when traversing cyclic
+	demangle component.
+	(d_print_comp): Return when demangle component has itself as ancistor
+	more than once.
+
 2016-12-21  Release Manager
 
 	* GCC 6.3.0 released.
